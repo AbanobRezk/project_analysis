@@ -152,6 +152,34 @@ with tab3:
 st.success("Models trained and forecasts generated successfully.")
 
 
+import streamlit as st
+import pandas as pd
+
+def upload_and_show_excel():
+    st.title("Excel File Uploader")
+
+    # رفع الملف من المستخدم
+    uploaded_file = st.file_uploader("اختر ملف Excel", type=["xlsx", "xls"])
+
+    if uploaded_file is not None:
+        try:
+            # قراءة الملف
+            df = pd.read_excel(uploaded_file)
+            st.success("تم تحميل الملف بنجاح!")
+            st.dataframe(df)  # عرض البيانات
+            return df  # رجّع الداتا بعد ما يتحمّل
+        except Exception as e:
+            st.error(f"حدث خطأ أثناء قراءة الملف: {e}")
+            return None
+    else:
+        st.info("من فضلك ارفع ملف Excel للعرض")
+        return None
+
+# استدعاء الفانكشن
+df = upload_and_show_excel()
+
+
+
 
 
 
