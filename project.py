@@ -12,8 +12,34 @@ import os
 
 
 
-path = r"C:\Users\babo2\Downloads\project_folder\project_data.xlsx"
-df = pd.read_excel(path)
+import streamlit as st
+import pandas as pd
+
+def upload_and_show_excel():
+    st.title("Excel File Uploader")
+
+    uploaded_file = st.file_uploader("Select an Excel file from your device", type=["xlsx", "xls"])
+
+    if uploaded_file is not None:
+        try:
+            df = pd.read_excel(uploaded_file)
+            st.success("File loaded successfully!")
+            st.dataframe(df)
+            return df
+        except Exception as e:
+            st.error(f"Error reading the file: {e}")
+            return None
+    else:
+        st.info("Please upload an Excel file to display")
+        return None
+
+df = upload_and_show_excel()
+
+if df is not None:
+    st.write("### Data Information:")
+    st.write(f"- Number of rows: {df.shape[0]}")
+    st.write(f"- Number of columns: {df.shape[1]}")
+    st.write(f"- Columns: {list(df.columns)}")
 
 
 date_col = None
@@ -150,36 +176,6 @@ with tab3:
 
 
 st.success("Models trained and forecasts generated successfully.")
-
-
-import streamlit as st
-import pandas as pd
-
-def upload_and_show_excel():
-    st.title("Excel File Uploader")
-
-    uploaded_file = st.file_uploader("Select an Excel file from your device", type=["xlsx", "xls"])
-
-    if uploaded_file is not None:
-        try:
-            df = pd.read_excel(uploaded_file)
-            st.success("File loaded successfully!")
-            st.dataframe(df)
-            return df
-        except Exception as e:
-            st.error(f"Error reading the file: {e}")
-            return None
-    else:
-        st.info("Please upload an Excel file to display")
-        return None
-
-df = upload_and_show_excel()
-
-if df is not None:
-    st.write("### Data Information:")
-    st.write(f"- Number of rows: {df.shape[0]}")
-    st.write(f"- Number of columns: {df.shape[1]}")
-    st.write(f"- Columns: {list(df.columns)}")
 
 
 
